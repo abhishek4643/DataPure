@@ -30,4 +30,16 @@ class Settings(BaseSettings):
     )
 
 
-settings = Settings()
+import sys
+from pydantic import ValidationError
+
+try:
+    settings = Settings()
+except ValidationError as e:
+    print("========================================")
+    print("FATAL CONFIGURATION ERROR:")
+    print("Missing or invalid environment variables.")
+    print("Make sure you added DATABASE_URL in Render!")
+    print(e)
+    print("========================================")
+    sys.exit(3)
