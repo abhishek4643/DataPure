@@ -66,14 +66,14 @@ export function ToastProvider({ children }) {
                 <div style={{ color: s.accent, flexShrink: 0 }}>
                   <Icon size={15} />
                 </div>
-                <span style={{ flex: 1, fontSize: 13, color: '#f1f5f9', fontFamily: 'Inter, sans-serif', lineHeight: 1.4 }}>
+                <span style={{ flex: 1, fontSize: 13, color: 'var(--text-primary)', fontFamily: 'Inter, sans-serif', lineHeight: 1.4, fontWeight: 500 }}>
                   {t.message}
                 </span>
                 <button
                   onClick={() => remove(t.id)}
                   style={{
                     background: 'none', border: 'none', cursor: 'pointer',
-                    color: '#64748b', flexShrink: 0, padding: 2,
+                    color: 'var(--text-tertiary)', flexShrink: 0, padding: 2,
                     display: 'flex', alignItems: 'center',
                   }}
                 >

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { ToastProvider } from './useToast';
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
@@ -8,18 +9,56 @@ import AddEntry from './pages/AddEntry';
 import FlaggedReview from './pages/FlaggedReview';
 import Records from './pages/Records';
 import ScanDuplicates from './pages/ScanDuplicates';
+import Settings from './pages/Settings';
 
-/* Page transition wrapper */
+/* ── Theme Context ── */
+export const ThemeContext = createContext({
+  theme: 'light',
+  toggleTheme: () => {},
+});
+
+export function useTheme() {
+  return useContext(ThemeContext);
+}
+
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'light';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+/* ── Minimal page transitions ── */
+const pageVariants = {
+  initial:  { opacity: 0, y: 10 },
+  animate:  { opacity: 1,  y: 0, transition: { duration: 0.2 } },
+  exit:     { opacity: 0,  y: -5, transition: { duration: 0.15 } },
+};
+
 function AnimatedRoutes() {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.18, ease: 'easeOut' }}
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
         style={{ height: '100%' }}
       >
         <Routes location={location}>
@@ -28,6 +67,7 @@ function AnimatedRoutes() {
           <Route path="/flagged" element={<FlaggedReview />}/>
           <Route path="/records" element={<Records />}      />
           <Route path="/scan"    element={<ScanDuplicates />}/>
+          <Route path="/settings" element={<Settings />}    />
         </Routes>
       </motion.div>
     </AnimatePresence>
@@ -36,58 +76,29 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <ToastProvider>
-      <BrowserRouter>
-        {/* Ambient Video Background */}
-        <div className="bg-canvas" aria-hidden="true" style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden', background: '#05080f' }}>
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: '100vw',
-              height: '100vh',
-              objectFit: 'cover',
-              transform: 'translate(-50%, -50%)',
-              opacity: 0.15,
-              filter: 'hue-rotate(20deg) saturate(1.2)'
-            }}
-          >
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-background-with-floating-particles-35031-large.mp4" type="video/mp4" />
-          </video>
-          {/* Overlay to ensure text readability */}
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, transparent 0%, rgba(5,8,15,0.8) 100%)' }} />
-        </div>
+    <ThemeProvider>
+      <ToastProvider>
+        <BrowserRouter>
+          {/* ── App Shell ── */}
+          <div style={{
+            display: 'flex', height: '100vh',
+            backgroundColor: 'var(--bg-app)',
+            color: 'var(--text-primary)',
+            overflow: 'hidden',
+          }}>
+            <Sidebar />
 
-        {/* App shell */}
-        <div style={{
-          display: 'flex',
-          height: '100vh',
-          position: 'relative',
-          zIndex: 1,
-          overflow: 'hidden',
-        }}>
-          <Sidebar />
-
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
-            <Topbar />
-
-            <main
-              style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
-              /* Extra bottom padding for mobile bottom nav */
-              className="md:pb-0"
-            >
-              <div style={{ height: '100%', overflowY: 'auto' }}>
-                <AnimatedRoutes />
-              </div>
-            </main>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
+              <Topbar />
+              <main style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
+                <div style={{ height: '100%', overflowY: 'auto' }}>
+                  <AnimatedRoutes />
+                </div>
+              </main>
+            </div>
           </div>
-        </div>
-      </BrowserRouter>
-    </ToastProvider>
+        </BrowserRouter>
+      </ToastProvider>
+    </ThemeProvider>
   );
 }

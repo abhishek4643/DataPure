@@ -1,86 +1,100 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flag, CheckCircle2, XCircle, RefreshCw } from 'lucide-react';
+import { Flag, CheckCircle2, XCircle, RefreshCw, AlertTriangle } from 'lucide-react';
 import { getFlagged, approveFlagged, rejectFlagged } from '../api';
 import { useToast } from '../useToast';
-import GlassCard from '../components/ui/GlassCard';
-import SimilarityRing from '../components/ui/SimilarityRing';
 import EmptyState from '../components/ui/EmptyState';
 import { Skeleton } from '../components/ui/Skeleton';
 
-function CRow({ label, a, b }) {
-  const diff = (a||'').toLowerCase().trim() !== (b||'').toLowerCase().trim();
+function DiffRow({ label, a, b }) {
+  const diff = (a || '').toLowerCase().trim() !== (b || '').toLowerCase().trim();
   return (
-    <div style={{ display:'grid', gridTemplateColumns:'60px 1fr 1fr', gap:8, padding:'7px 0', borderBottom:'1px solid rgba(255,255,255,0.04)' }}>
-      <span style={{ fontSize:10, color:'#475569', textTransform:'uppercase', letterSpacing:'0.06em', fontFamily:'Space Grotesk', paddingTop:3 }}>{label}</span>
-      <div className={diff ? 'diff-new' : ''} style={{ fontSize:12, color:'#e2e8f0', wordBreak:'break-all', padding:'3px 5px', borderRadius:4 }}>{a||'—'}</div>
-      <div className={diff ? 'diff-changed' : ''} style={{ fontSize:12, color:'#94a3b8', wordBreak:'break-all', padding:'3px 5px', borderRadius:4 }}>{b||'—'}</div>
+    <div style={{ padding: '12px 0', borderBottom: '1px solid var(--border-color)', display: 'grid', gridTemplateColumns: '80px 1fr 1fr', gap: 16 }}>
+      <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>{label}</div>
+      <div style={{ 
+        fontSize: 13, color: 'var(--text-primary)', wordBreak: 'break-word',
+        background: diff ? 'var(--color-success-bg)' : 'transparent',
+        padding: diff ? '4px 8px' : '4px 0', borderRadius: 6
+      }}>{a || '—'}</div>
+      <div style={{ 
+        fontSize: 13, color: 'var(--text-tertiary)', wordBreak: 'break-word',
+        background: diff ? 'var(--color-danger-bg)' : 'transparent',
+        padding: diff ? '4px 8px' : '4px 0', borderRadius: 6
+      }}>{b || '—'}</div>
     </div>
   );
 }
 
-function ReviewCard({ item, index, onDone }) {
+function ReviewCard({ item, onDone }) {
   const { addToast } = useToast();
   const [busy, setBusy] = useState(false);
   const { entry_data: nd, matched_entry: me, similarity_score: score } = item;
 
   const act = async (fn, msg, type) => {
     setBusy(true);
-    try { await fn(item.id); addToast(msg, type); onDone(item.id); }
-    catch { addToast('Action failed.', 'error'); }
-    finally { setBusy(false); }
+    try {
+      await fn(item.id);
+      addToast(msg, type);
+      onDone(item.id);
+    } catch {
+      addToast('Action failed. Retry.', 'error');
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
-    <motion.div layout initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
-      exit={{ opacity:0, x:-60, scale:0.94 }} transition={{ duration:0.28 }}>
-      <GlassCard className="verdict-flagged" style={{ position:'relative', overflow:'hidden' }}>
-        {/* Holographic background grid */}
-        <div style={{ position:'absolute', inset:0, backgroundImage:'linear-gradient(rgba(245,158,11,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.03) 1px, transparent 1px)', backgroundSize:'20px 20px', zIndex:-1 }} />
-        
-        <div style={{ padding: 24 }}>
-          <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:20 }}>
-            <div>
-              <div style={{ display:'flex', alignItems:'center', gap:6, fontSize:10, fontWeight:700, color:'#f59e0b', letterSpacing:'0.15em', textTransform:'uppercase', fontFamily:'Space Grotesk', marginBottom:8 }}>
-                <span className="animate-pulse" style={{ width:6, height:6, borderRadius:'50%', background:'#f59e0b', boxShadow:'0 0 6px #f59e0b' }} />
-                Review #{String(index+1).padStart(3,'0')}
-              </div>
-              <div style={{ fontSize:18, fontWeight:700, color:'#f1f5f9', fontFamily:'Space Grotesk', letterSpacing:'-0.01em' }}>{nd?.name}</div>
-              <div style={{ fontSize:13, color:'#94a3b8', marginTop:2, fontFamily:'monospace' }}>{nd?.email}</div>
-            </div>
-            <div style={{ background:'rgba(0,0,0,0.3)', padding:6, borderRadius:'50%', border:'1px solid rgba(245,158,11,0.2)' }}>
-              <SimilarityRing score={score} size={84} strokeWidth={6} label="sim" />
-            </div>
-          </div>
-          
-          <div style={{ background:'rgba(0,0,0,0.2)', borderRadius:12, padding:'16px 20px', border:'1px solid rgba(255,255,255,0.03)' }}>
-            <div style={{ display:'grid', gridTemplateColumns:'60px 1fr 1fr', gap:10, marginBottom:8 }}>
-              <span/>
-              <span style={{ fontSize:10, fontWeight:700, color:'#10b981', textTransform:'uppercase', letterSpacing:'0.1em' }}>Submitted Data</span>
-              <span style={{ fontSize:10, fontWeight:700, color:'#f59e0b', textTransform:'uppercase', letterSpacing:'0.1em' }}>Existing Match</span>
-            </div>
-            <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
-              <CRow label="Name"    a={nd?.name}    b={me?.name} />
-              <CRow label="Email"   a={nd?.email}   b={me?.email} />
-              <CRow label="Phone"   a={nd?.phone}   b={me?.phone} />
-              <CRow label="Content" a={nd?.content} b={me?.content} />
-            </div>
-          </div>
-
-          <div style={{ display:'flex', gap:12, marginTop:24 }}>
-            <motion.button className="btn btn-success" style={{ flex:1, justifyContent:'center', height:44, fontSize:13, letterSpacing:'0.02em' }}
-              whileTap={{ scale:0.96 }} disabled={busy}
-              onClick={() => act(approveFlagged, 'Record approved and added!', 'success')}>
-              <CheckCircle2 size={16}/> Approve & Insert
-            </motion.button>
-            <motion.button className="btn btn-danger" style={{ flex:1, justifyContent:'center', height:44, fontSize:13, letterSpacing:'0.02em' }}
-              whileTap={{ scale:0.96 }} disabled={busy}
-              onClick={() => act(rejectFlagged, 'Entry rejected.', 'info')}>
-              <XCircle size={16}/> Reject Data
-            </motion.button>
-          </div>
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      className="glass"
+      style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+    >
+      <div style={{ 
+        padding: '16px 20px', borderBottom: '1px solid var(--border-color)', background: 'var(--bg-app)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <AlertTriangle size={18} style={{ color: 'var(--color-warning)' }} />
+          <span style={{ fontSize: 14, fontWeight: 600 }}>Review Required</span>
         </div>
-      </GlassCard>
+        <div style={{ 
+          fontSize: 12, fontWeight: 600, color: 'var(--color-warning)', background: 'var(--color-warning-bg)',
+          padding: '4px 8px', borderRadius: 12
+        }}>
+          {score.toFixed(1)}% Match
+        </div>
+      </div>
+
+      <div style={{ padding: '20px', flex: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1fr', gap: 16, marginBottom: 8, paddingBottom: 8, borderBottom: '2px solid var(--border-color)' }}>
+          <div></div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-success)' }}>Submitted Entry</div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-danger)' }}>Existing Match</div>
+        </div>
+
+        <DiffRow label="Name" a={nd?.name} b={me?.name} />
+        <DiffRow label="Email" a={nd?.email} b={me?.email} />
+        <DiffRow label="Phone" a={nd?.phone} b={me?.phone} />
+        <DiffRow label="Content" a={nd?.content} b={me?.content} />
+      </div>
+
+      <div style={{ padding: '16px 20px', background: 'var(--bg-app)', borderTop: '1px solid var(--border-color)', display: 'flex', gap: 12 }}>
+        <button 
+          className="btn btn-success" style={{ flex: 1, justifyContent: 'center' }} 
+          disabled={busy} onClick={() => act(approveFlagged, 'Approved & Inserted!', 'success')}
+        >
+          <CheckCircle2 size={16} /> Approve
+        </button>
+        <button 
+          className="btn btn-danger" style={{ flex: 1, justifyContent: 'center' }} 
+          disabled={busy} onClick={() => act(rejectFlagged, 'Entry Rejected', 'info')}
+        >
+          <XCircle size={16} /> Reject
+        </button>
+      </div>
     </motion.div>
   );
 }
@@ -91,47 +105,53 @@ export default function FlaggedReview() {
 
   const load = () => {
     setLoading(true);
-    getFlagged().then(r => setItems(r.data || [])).catch(() => {}).finally(() => setLoading(false));
+    getFlagged()
+      .then(r => setItems(r.data || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => { load(); }, []);
 
   return (
     <div className="page-content">
-      <motion.div initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }}
-        style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:24, flexWrap:'wrap', gap:12 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 32 }}>
         <div>
-          <div style={{ fontSize:11, fontWeight:600, letterSpacing:'0.1em', color:'#f59e0b', textTransform:'uppercase', marginBottom:6, fontFamily:'Space Grotesk' }}>
-            Human Verification Queue
-          </div>
-          <h1 style={{ fontSize:24, fontWeight:700, fontFamily:'Space Grotesk', letterSpacing:'-0.02em', color:'#f1f5f9', marginBottom:4 }}>
-            Review Queue
-          </h1>
-          <p style={{ color:'#64748b', fontSize:13 }}>
-            {loading ? 'Loading…' : `${items.length} entr${items.length===1?'y':'ies'} awaiting review`}
+          <h1 style={{ fontSize: 24, marginBottom: 8 }}>Review Queue</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>
+            {loading ? 'Loading...' : `${items.length} records requiring human verification`}
           </p>
         </div>
-        <button className="btn btn-ghost" onClick={load}><RefreshCw size={13}/> Refresh</button>
-      </motion.div>
+        <button className="btn btn-ghost" onClick={load}>
+          <RefreshCw size={16} /> Refresh
+        </button>
+      </div>
 
       {loading ? (
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(400px,1fr))', gap:14 }}>
-          {[1,2].map(i => (
-            <GlassCard key={i} className="p-5">
-              <Skeleton w="60%" h={18} mb={8} /><Skeleton w="40%" h={13} mb={20} />
-              {[1,2,3,4].map(j => <Skeleton key={j} w="100%" h={32} mb={6} />)}
-            </GlassCard>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))', gap: 20 }}>
+          {[1, 2].map(i => (
+            <div key={i} className="glass" style={{ padding: 24 }}>
+              <Skeleton w="40%" h={24} mb={20} />
+              <Skeleton w="100%" h={40} mb={10} />
+              <Skeleton w="100%" h={40} mb={10} />
+              <Skeleton w="100%" h={40} mb={20} />
+              <Skeleton w="100%" h={40} />
+            </div>
           ))}
         </div>
       ) : items.length === 0 ? (
-        <GlassCard style={{ borderRadius:14 }}>
-          <EmptyState icon={Flag} title="All clear." description="No records require manual verification. Great data quality!" />
-        </GlassCard>
+        <div className="glass" style={{ padding: '60px 20px' }}>
+          <EmptyState 
+            icon={CheckCircle2} 
+            title="Queue is Empty" 
+            description="No records require manual verification at this time." 
+          />
+        </div>
       ) : (
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(400px,1fr))', gap:14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))', gap: 20 }}>
           <AnimatePresence>
-            {items.map((item, i) => (
-              <ReviewCard key={item.id} item={item} index={i} onDone={id => setItems(p => p.filter(x => x.id !== id))} />
+            {items.map(item => (
+              <ReviewCard key={item.id} item={item} onDone={id => setItems(p => p.filter(x => x.id !== id))} />
             ))}
           </AnimatePresence>
         </div>
