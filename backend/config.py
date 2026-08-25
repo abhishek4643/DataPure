@@ -16,8 +16,11 @@ class Settings(BaseSettings):
     @field_validator("DATABASE_URL")
     @classmethod
     def assemble_db_connection(cls, v: str) -> str:
-        if v and v.startswith("postgres://"):
-            return v.replace("postgres://", "postgresql://", 1)
+        if v:
+            # Strip any accidental quotes from the string
+            v = v.strip('"').strip("'")
+            if v.startswith("postgres://"):
+                return v.replace("postgres://", "postgresql://", 1)
         return v
 
     model_config = SettingsConfigDict(
