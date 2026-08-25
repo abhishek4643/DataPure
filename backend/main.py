@@ -8,15 +8,28 @@ DataPure API:
 - Provides a health-check endpoint
 """
 
+import sys
+print("=== DATAPURE: ENTERING MAIN.PY ===", flush=True)
+
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
-from database import engine
-from models import Base
-from routes import entries, flagged, stats, scan
-
+try:
+    print("=== DATAPURE: IMPORTING FASTAPI ===", flush=True)
+    from fastapi import FastAPI
+    from fastapi.middleware.cors import CORSMiddleware
+    
+    print("=== DATAPURE: IMPORTING DATABASE ===", flush=True)
+    from database import engine
+    from models import Base
+    
+    print("=== DATAPURE: IMPORTING ROUTES ===", flush=True)
+    from routes import entries, flagged, stats, scan
+    print("=== DATAPURE: IMPORTS SUCCESSFUL ===", flush=True)
+except Exception as e:
+    print(f"=== DATAPURE FATAL IMPORT ERROR: {e} ===", flush=True)
+    import traceback
+    traceback.print_exc()
+    sys.exit(3)
 
 # ─────────────────────────────────────────────
 # Application lifespan
