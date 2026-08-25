@@ -1,83 +1,111 @@
-# 🌐 DataPure — Data Redundancy Removal System
+<div align="center">
 
-> A full-stack cloud application that detects and prevents duplicate data from entering your PostgreSQL (Supabase) database using a **two-layer validation pipeline**: SHA-256 exact hashing + RapidFuzz fuzzy similarity.
+# ⚡ DataPure
+### *Enterprise-Grade Data Redundancy Removal System*
 
----
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![PostgreSQL](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org/)
+[![Vite](https://img.shields.io/badge/Vite-5+-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-## 📐 Architecture
+<br/>
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      DATAPURE SYSTEM                        │
-│                                                             │
-│  ┌──────────────┐   HTTP/REST   ┌─────────────────────────┐ │
-│  │   FRONTEND   │ ────────────► │      BACKEND (FastAPI)  │ │
-│  │  React + Vite│               │                         │ │
-│  │  Tailwind CSS│ ◄──────────── │  POST /entries          │ │
-│  │  Framer Motion              │  GET  /entries           │ │
-│  │  Recharts    │               │  GET  /stats            │ │
-│  └──────────────┘               │  GET  /flagged          │ │
-│                                 │  POST /flagged/{id}/... │ │
-│                                 │  POST /scan-duplicates  │ │
-│                                 └──────────┬──────────────┘ │
-│                                            │                 │
-│                                 ┌──────────▼──────────────┐ │
-│                                 │  TWO-LAYER DETECTION    │ │
-│                                 │                         │ │
-│                                 │  Layer 1: SHA-256 Hash  │ │
-│                                 │  └─ Exact match check   │ │
-│                                 │                         │ │
-│                                 │  Layer 2: RapidFuzz     │ │
-│                                 │  └─ Fuzzy similarity    │ │
-│                                 └──────────┬──────────────┘ │
-│                                            │                 │
-│                              ┌─────────────▼─────────────┐  │
-│                              │  Supabase (PostgreSQL)    │  │
-│                              │  • entries table          │  │
-│                              │  • flagged_entries table  │  │
-│                              └───────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-```
+> A full-stack cloud application that silently guards your database against pollution.
+> DataPure uses a **two-layer validation pipeline** — SHA-256 exact hashing followed by RapidFuzz semantic similarity — to detect and prevent duplicate data before it ever reaches your PostgreSQL (Supabase) database.
+
+<br/>
+
+**[🚀 Live Demo](#-local-setup) · [📖 API Docs](#-rest-api-reference) · [🐛 Report Bug](https://github.com/abhishek4643/DataPure/issues) · [✨ Request Feature](https://github.com/abhishek4643/DataPure/issues)**
+
+</div>
 
 ---
 
-## 🔍 How Two-Layer Redundancy Detection Works
+## 🌟 What Makes DataPure Different?
+
+Most deduplication tools check for *exact* matches. DataPure goes further.
+
+| Feature | Basic Deduplication | **DataPure** |
+|---|:---:|:---:|
+| Exact duplicate detection | ✅ | ✅ |
+| Handles typos & misspellings | ❌ | ✅ |
+| Handles reordered fields | ❌ | ✅ |
+| Near-duplicate flagging for review | ❌ | ✅ |
+| Manual review workflow | ❌ | ✅ |
+| Real-time analytics dashboard | ❌ | ✅ |
+| Live search command palette | ❌ | ✅ |
+
+---
+
+## 📐 System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        DATAPURE SYSTEM                          │
+│                                                                 │
+│  ┌──────────────────┐   REST/JSON   ┌────────────────────────┐  │
+│  │    FRONTEND      │ ────────────► │   BACKEND  (FastAPI)   │  │
+│  │                  │               │                        │  │
+│  │  React 18 + Vite │ ◄──────────── │  POST /entries         │  │
+│  │  Framer Motion   │               │  GET  /entries         │  │
+│  │  Lucide Icons    │               │  GET  /stats           │  │
+│  │  Custom CSS DS   │               │  GET  /flagged         │  │
+│  └──────────────────┘               │  POST /flagged/{id}/.. │  │
+│                                     │  POST /scan-duplicates │  │
+│                                     └──────────┬─────────────┘  │
+│                                                │                 │
+│                                     ┌──────────▼─────────────┐  │
+│                                     │   TWO-LAYER DETECTION  │  │
+│                                     │                        │  │
+│                                     │  Layer 1: SHA-256      │  │
+│                                     │  └─► Exact hash match  │  │
+│                                     │                        │  │
+│                                     │  Layer 2: RapidFuzz    │  │
+│                                     │  └─► Fuzzy similarity  │  │
+│                                     └──────────┬─────────────┘  │
+│                                                │                 │
+│                                   ┌────────────▼────────────┐   │
+│                                   │  Supabase (PostgreSQL)  │   │
+│                                   │  • entries              │   │
+│                                   │  • flagged_entries      │   │
+│                                   └─────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔍 How the Two-Layer Detection Pipeline Works
 
 ### Layer 1 — Exact Hash Match (SHA-256)
 
-1. All entry fields (name, email, phone, content) are **normalized**: lowercased, trimmed, and stripped of special characters.
-2. The normalized string is hashed with **SHA-256** → 64-character hex digest.
-3. The hash is compared against all stored `content_hash` values in the database.
-4. If a match is found → **REDUNDANT** (instant rejection, O(1) database lookup).
+A new entry is first **normalized** (lowercased, trimmed, special characters stripped) and hashed with SHA-256 into a 64-character hex digest. This hash is compared against every `content_hash` in the database in a single O(1) lookup.
+
+> **Match found?** → Instant `REDUNDANT` rejection. No fuzzy pass needed.
 
 ### Layer 2 — Fuzzy Similarity (RapidFuzz)
 
-1. If no exact hash match, the normalized new entry is compared against **all existing records** using `rapidfuzz.fuzz.token_set_ratio`.
-2. `token_set_ratio` is order-insensitive (handles reordered fields well).
-3. Classification:
-   - **Score ≥ 85%** → `REDUNDANT` → Entry rejected, NOT inserted
-   - **Score 70–84%** → `FLAGGED` → Stored in `flagged_entries` for manual review
-   - **Score < 70%**  → `UNIQUE`   → Inserted into `entries` with its hash
+If no exact hash match exists, the normalized entry is compared semantically against **all existing records** using `token_set_ratio` — a method that is fully order-insensitive, making it robust against reordered names, swapped fields, and minor typos.
 
 ```
 New Entry
     │
     ▼
- Normalize (lowercase, strip special chars)
+ Normalize (lowercase, strip, trim)
     │
     ▼
- Compute SHA-256 Hash
+ SHA-256 Hash → Compare against DB hashes
     │
-    ├──► Match in DB? ──YES──► REDUNDANT ❌
+    ├──► MATCH FOUND?  ───────────────YES──► ❌ REDUNDANT (rejected)
     │
-    NO
+    NO ↓
     │
-    ▼
  RapidFuzz token_set_ratio vs all records
     │
-    ├──► score ≥ 85%  ──► REDUNDANT ❌
-    ├──► score 70–84% ──► FLAGGED ⚠️ (manual review)
-    └──► score < 70%  ──► UNIQUE ✅ (insert + store hash)
+    ├──► score ≥ 85%  ──────────────────► ❌ REDUNDANT (rejected)
+    ├──► score 70–84% ──────────────────► ⚠️  FLAGGED  (manual review queue)
+    └──► score  < 70% ──────────────────► ✅  UNIQUE   (inserted + hash stored)
 ```
 
 ---
@@ -86,22 +114,24 @@ New Entry
 
 ### Prerequisites
 
-- Python 3.10+
-- Node.js 18+
-- A **Supabase** project (free tier at https://supabase.com)
+- **Python** 3.10+
+- **Node.js** 18+
+- A **Supabase** project (free tier at [supabase.com](https://supabase.com))
 
 ---
 
-### 1. Supabase Setup
+### Step 1 — Supabase Database
 
-1. Go to [supabase.com](https://supabase.com) → Create a new project.
-2. Go to **SQL Editor** and run the contents of `supabase_schema.sql`.
-3. Go to **Settings → Database** → Copy the **Connection String** (URI format).
-   - It looks like: `postgresql://postgres:PASSWORD@db.XXXXXX.supabase.co:5432/postgres`
+1. Go to [supabase.com](https://supabase.com/) → create a new project.
+2. Open the **SQL Editor** and run the full contents of `supabase_schema.sql`.
+3. Go to **Settings → Database** → copy your **Connection String** (URI format).
+   ```
+   postgresql://postgres:PASSWORD@db.XXXXXX.supabase.co:5432/postgres
+   ```
 
 ---
 
-### 2. Backend Setup
+### Step 2 — Backend (FastAPI)
 
 ```bash
 cd backend
@@ -109,25 +139,25 @@ cd backend
 # Create and activate virtual environment
 python -m venv venv
 venv\Scripts\activate        # Windows
-# source venv/bin/activate   # Mac/Linux
+# source venv/bin/activate   # Mac / Linux
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Configure environment
 copy .env.example .env
-# Edit .env → paste your Supabase DATABASE_URL
+# ↑ Open .env and paste your Supabase DATABASE_URL
 
 # Start the server
 uvicorn main:app --reload --port 8000
 ```
 
-API is now running at `http://localhost:8000`  
-Interactive docs: `http://localhost:8000/docs`
+> ✅ API running at: `http://localhost:8000`
+> 📖 Interactive docs: `http://localhost:8000/docs`
 
 ---
 
-### 3. Frontend Setup
+### Step 3 — Frontend (React + Vite)
 
 ```bash
 cd frontend
@@ -137,13 +167,13 @@ npm install
 
 # Configure environment
 copy .env.example .env
-# Edit .env → set VITE_API_BASE_URL=http://localhost:8000
+# ↑ Set VITE_API_BASE_URL=http://localhost:8000
 
 # Start dev server
 npm run dev
 ```
 
-App is now running at `http://localhost:5173`
+> ✅ App running at: `http://localhost:5173`
 
 ---
 
@@ -151,61 +181,63 @@ App is now running at `http://localhost:5173`
 
 ```
 DataPure/
+│
 ├── backend/
-│   ├── main.py              # FastAPI app entry point + CORS + lifespan
-│   ├── config.py            # Pydantic settings (loads .env)
-│   ├── database.py          # SQLAlchemy engine + session
+│   ├── main.py              # FastAPI entry point, CORS, lifespan hooks
+│   ├── config.py            # Pydantic settings (reads .env)
+│   ├── database.py          # SQLAlchemy engine + session factory
 │   ├── models.py            # ORM models: Entry, FlaggedEntry
 │   ├── schemas.py           # Pydantic request/response schemas
-│   ├── deduplication.py     # Two-layer detection logic (hash + fuzzy)
+│   ├── deduplication.py     # ⭐ Core two-layer detection logic
 │   ├── routes/
-│   │   ├── entries.py       # POST /entries, GET /entries
-│   │   ├── flagged.py       # GET /flagged, POST /flagged/{id}/approve|reject
+│   │   ├── entries.py       # POST /entries · GET /entries
+│   │   ├── flagged.py       # GET /flagged · approve · reject
 │   │   ├── stats.py         # GET /stats
 │   │   └── scan.py          # POST /scan-duplicates
 │   ├── requirements.txt
 │   └── .env.example
 │
-├── frontend/
-│   ├── src/
-│   │   ├── api.js           # Axios client + all API functions
-│   │   ├── useToast.jsx     # Toast notification context
-│   │   ├── App.jsx          # Root component + routing
-│   │   ├── index.css        # Design system (glassmorphism, tokens, animations)
-│   │   ├── components/
-│   │   │   ├── Sidebar.jsx  # Desktop sidebar + mobile bottom nav
-│   │   │   └── Topbar.jsx   # Top bar with live stats chip
-│   │   └── pages/
-│   │       ├── Dashboard.jsx      # Stat cards + donut chart + activity feed
-│   │       ├── AddEntry.jsx       # Form + scanning animation + verdict
-│   │       ├── Records.jsx        # Searchable paginated table
-│   │       ├── FlaggedReview.jsx  # Side-by-side diff cards + approve/reject
-│   │       └── ScanDuplicates.jsx # Full DB scan with animation
-│   ├── .env.example
-│   ├── index.html
-│   ├── vite.config.js
-│   └── package.json
-│
-├── supabase_schema.sql   # SQL to create tables in Supabase
-├── .gitignore
-└── README.md
+└── frontend/
+    ├── src/
+    │   ├── api.js              # Axios client + all API call functions
+    │   ├── useToast.jsx        # Custom toast notification context
+    │   ├── App.jsx             # Root + routing + theme provider
+    │   ├── index.css           # ⭐ Custom design system (tokens, animations)
+    │   ├── components/
+    │   │   ├── Sidebar.jsx     # Navigation sidebar
+    │   │   ├── Topbar.jsx      # Live search command palette + profile
+    │   │   └── ui/
+    │   │       ├── StatCard.jsx     # Spotlight hover metric cards
+    │   │       ├── Skeleton.jsx     # Loading skeleton components
+    │   │       └── EmptyState.jsx   # Empty state illustrations
+    │   └── pages/
+    │       ├── Dashboard.jsx        # Metric cards + live activity feed
+    │       ├── AddEntry.jsx         # Entry form + verdict animation
+    │       ├── Records.jsx          # Searchable paginated records table
+    │       ├── FlaggedReview.jsx    # Side-by-side diff + approve/reject
+    │       ├── ScanDuplicates.jsx   # Full database scan with progress
+    │       └── Settings.jsx         # Profile, Preferences, Security, Alerts
+    ├── .env.example
+    ├── index.html
+    ├── vite.config.js
+    └── package.json
 ```
 
 ---
 
 ## 🌍 REST API Reference
 
-| Method | Endpoint                     | Description                            |
-|--------|------------------------------|----------------------------------------|
-| POST   | `/entries`                   | Submit + validate a new entry          |
-| GET    | `/entries?search=&page=&page_size=` | List all unique entries (paginated) |
-| GET    | `/stats`                     | Dashboard stats                        |
-| GET    | `/flagged`                   | List pending flagged entries           |
-| POST   | `/flagged/{id}/approve`      | Approve flagged entry (insert it)      |
-| POST   | `/flagged/{id}/reject`       | Reject flagged entry                   |
-| POST   | `/scan-duplicates`           | Scan + remove internal duplicates      |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/entries` | Submit + validate a new entry through the full pipeline |
+| `GET` | `/entries?search=&page=&page_size=` | List all unique entries (paginated + searchable) |
+| `GET` | `/stats` | Dashboard statistics (totals, accuracy, queue count) |
+| `GET` | `/flagged` | List all pending flagged entries awaiting review |
+| `POST` | `/flagged/{id}/approve` | Approve a flagged entry (insert into main DB) |
+| `POST` | `/flagged/{id}/reject` | Permanently reject a flagged entry |
+| `POST` | `/scan-duplicates` | Retroactively scan existing records for internal duplicates |
 
-### Example POST /entries response
+### Example — `POST /entries` Response
 
 ```json
 {
@@ -217,7 +249,7 @@ DataPure/
     "email": "jane@example.com",
     "phone": "+919876543210",
     "content": "Looking for cloud solutions",
-    "content_hash": "a3f1...",
+    "content_hash": "a3f1c8...",
     "created_at": "2025-01-01T10:00:00"
   },
   "message": "High similarity (91.3%) detected. Entry rejected as redundant."
@@ -228,31 +260,62 @@ DataPure/
 
 ## 🚢 Deployment
 
-### Backend → Render (Free Tier)
+### Backend → [Render](https://render.com) *(Free Tier)*
 
-1. Push to GitHub.
-2. Go to [render.com](https://render.com) → New Web Service → connect repo.
-3. **Root Directory**: `backend`
-4. **Build Command**: `pip install -r requirements.txt`
-5. **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-6. Add environment variable: `DATABASE_URL` = your Supabase connection string.
+1. Push your code to GitHub.
+2. Go to **Render** → New Web Service → connect your repository.
+3. Set the following:
 
-### Frontend → Vercel (Free Tier)
+   | Setting | Value |
+   |---------|-------|
+   | Root Directory | `backend` |
+   | Build Command | `pip install -r requirements.txt` |
+   | Start Command | `uvicorn main:app --host 0.0.0.0 --port $PORT` |
+   | Environment Var | `DATABASE_URL` = your Supabase connection string |
 
-1. Go to [vercel.com](https://vercel.com) → Import from GitHub.
-2. **Root Directory**: `frontend`
-3. **Build Command**: `npm run build`
-4. **Output Directory**: `dist`
-5. Add environment variable: `VITE_API_BASE_URL` = your Render backend URL.
+### Frontend → [Vercel](https://vercel.com) *(Free Tier)*
+
+1. Go to **Vercel** → Import from GitHub.
+2. Set the following:
+
+   | Setting | Value |
+   |---------|-------|
+   | Root Directory | `frontend` |
+   | Build Command | `npm run build` |
+   | Output Directory | `dist` |
+   | Environment Var | `VITE_API_BASE_URL` = your Render backend URL |
 
 ---
 
 ## 🔐 Security Notes
 
-- Do **not** commit `.env` files — they are gitignored.
-- For production, restrict CORS `allow_origins` to your actual frontend domain.
-- Supabase connection strings contain passwords — treat them as secrets.
+- ❌ **Never** commit `.env` files — they are gitignored by default.
+- 🌐 For production, restrict `allow_origins` in CORS to your actual frontend domain only.
+- 🔑 Supabase connection strings contain passwords — treat them as secrets and rotate them if exposed.
 
 ---
 
-*Built for CodeAlpha Cloud Computing Internship — Task 1: Data Redundancy Removal System*
+## 🧠 Tech Stack
+
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| **Frontend** | React 18 + Vite | UI framework + lightning-fast dev server |
+| **Styling** | Vanilla CSS + CSS Variables | Custom design system, no framework overhead |
+| **Animations** | Framer Motion | Micro-interactions, page transitions |
+| **Backend** | FastAPI (Python) | High-performance async REST API |
+| **Deduplication** | RapidFuzz + hashlib | Two-layer fuzzy + exact detection |
+| **Database** | Supabase (PostgreSQL) | Managed cloud database with real-time features |
+| **ORM** | SQLAlchemy | Database abstraction layer |
+| **Validation** | Pydantic v2 | Request/response schema enforcement |
+
+---
+
+<div align="center">
+
+*Built for the **CodeAlpha Cloud Computing Internship** — Task 1: Data Redundancy Removal System*
+
+<br/>
+
+⭐ **If this project helped you, consider starring the repo!** ⭐
+
+</div>
