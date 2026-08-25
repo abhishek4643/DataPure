@@ -3,6 +3,7 @@ config.py — Application configuration.
 Loads environment variables using Pydantic Settings.
 """
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,6 +12,13 @@ class Settings(BaseSettings):
 
     FUZZY_REDUNDANT_THRESHOLD: float = 85.0
     FUZZY_FLAGGED_THRESHOLD: float = 70.0
+
+    @field_validator("DATABASE_URL")
+    @classmethod
+    def assemble_db_connection(cls, v: str) -> str:
+        if v and v.startswith("postgres://"):
+            return v.replace("postgres://", "postgresql://", 1)
+        return v
 
     model_config = SettingsConfigDict(
         env_file=".env",
