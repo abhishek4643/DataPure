@@ -42,6 +42,11 @@ DataPure guards enterprise database systems against data pollution using a **two
   <img src="./docs/architecture.svg" alt="DataPure Architecture Flow" width="100%" />
 </p>
 
+* **Data Ingestion (Client / CSV)**: Multipart CSV/Excel uploads, instant manual forms, and automated batch REST ingestion streams.
+* **React 19 Telemetry**: Responsive single-page client with live Recharts analytics, toast alerts, and interactive duplicate audit queue.
+* **FastAPI Deduplication Core**: Layer 1 SHA-256 cryptographic hash checks and Layer 2 C-accelerated RapidFuzz matrix comparisons.
+* **Supabase / PostgreSQL**: ACID relational persistence store with indexed hash lookups, audit trails, and permanent clean record ledgers.
+
 ---
 
 ## Deduplication Pipeline & Two-Layer Engine

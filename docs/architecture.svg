@@ -39,7 +39,7 @@
   <g transform="translate(24, 12)">
     <rect width="280" height="20" rx="10" fill="#1E293B" stroke="#334155" stroke-width="0.8"/>
     <circle cx="10" cy="10" r="3.5" fill="#10B981"/>
-    <text x="20" y="14" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" letter-spacing="0.05em">DATAPURE &bull; ENTERPRISE SYSTEM TOPOLOGY</text>
+    <text x="20" y="14" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" letter-spacing="0.05em">DATAPURE &#8226; ENTERPRISE SYSTEM TOPOLOGY</text>
   </g>
 
   <!-- ==================== CARD 1: CLIENT / INGESTION ==================== -->
@@ -75,7 +75,7 @@
     </g>
     <!-- Footer Badge -->
     <rect x="14" y="198" width="167" height="18" rx="4" fill="#DBEAFE"/>
-    <text x="97.5" y="210" text-anchor="middle" fill="#1E40AF" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Client Payload &bull; Multipart/JSON</text>
+    <text x="97.5" y="210" text-anchor="middle" fill="#1E40AF" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Client Payload &#8226; Multipart/JSON</text>
   </g>
 
   <!-- Connector 1 -->
@@ -117,7 +117,7 @@
     </g>
     <!-- Footer Badge -->
     <rect x="14" y="198" width="167" height="18" rx="4" fill="#D1FAE5"/>
-    <text x="97.5" y="210" text-anchor="middle" fill="#047857" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Client State &bull; Axios + Router v7</text>
+    <text x="97.5" y="210" text-anchor="middle" fill="#047857" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Client State &#8226; Axios + Router v7</text>
   </g>
 
   <!-- Connector 2 -->
@@ -159,7 +159,7 @@
     </g>
     <!-- Footer Badge -->
     <rect x="14" y="198" width="167" height="18" rx="4" fill="#FEF3C7"/>
-    <text x="97.5" y="210" text-anchor="middle" fill="#B45309" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Async Pipeline &bull; Pydantic v2</text>
+    <text x="97.5" y="210" text-anchor="middle" fill="#B45309" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Async Pipeline &#8226; Pydantic v2</text>
   </g>
 
   <!-- Connector 3 -->
@@ -203,7 +203,7 @@
     </g>
     <!-- Footer Badge -->
     <rect x="14" y="198" width="167" height="18" rx="4" fill="#EDE9FE"/>
-    <text x="97.5" y="210" text-anchor="middle" fill="#6D28D9" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">PostgreSQL Pool &bull; Supabase Auth</text>
+    <text x="97.5" y="210" text-anchor="middle" fill="#6D28D9" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">PostgreSQL Pool &#8226; Supabase Auth</text>
   </g>
 
   <!-- Bottom Legend Bar -->
