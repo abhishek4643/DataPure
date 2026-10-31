@@ -41,42 +41,44 @@ Technologies used across DataPure and their architectural purpose:
 
 ---
 
-### 3. Directory Structure
+### 3. Folder Structure
+
+The project follows a clean, modular structure separating backend API services, data models, and the frontend web client:
 
 ```text
 DataPure/
-├── backend/                        # FastAPI Python 3.11 Microservice
-│   ├── routes/                     # Modular API Route Controllers
-│   ├── config.py                   # Pydantic BaseSettings & Environment Vars
-│   ├── database.py                 # SQLAlchemy Engine & SessionLocal Generator
-│   ├── deduplication.py            # Layer 1 Hash & Layer 2 RapidFuzz Engine
-│   ├── main.py                     # FastAPI Application Initialization & Endpoints
-│   ├── models.py                   # SQLAlchemy ORM Database Schemas
-│   ├── schemas.py                  # Pydantic v2 Serialization & Request Models
-│   └── requirements.txt            # Python Dependencies
-├── frontend/                       # React 19 + Vite 8 Single-Page Application
-│   ├── public/                     # Static Web Assets
-│   ├── src/                        # React Application Source
-│   │   ├── components/             # Reusable UI Cards, Modals & Forms
-│   │   ├── pages/                  # Route Pages (Dashboard, Ingest, Queue, Logs)
-│   │   ├── services/               # Axios REST API Client Wrappers
-│   │   ├── App.jsx                 # Main Routing & Layout Orchestrator
-│   │   └── main.jsx                # DOM Mounting Point
-│   ├── index.html                  # HTML5 Entry Document
-│   ├── package.json                # NPM Scripts & Dependencies
-│   └── vite.config.js              # Vite 8 & Tailwind v4 Plugin Configuration
-├── docs/                           # Architecture & Engineering Documentation
-│   ├── ARCHITECTURE.md             # System Topology & Algorithm Specifications
-│   ├── DESIGN.md                   # Design System & UI Specifications
-│   ├── MEMORY.md                   # Operational State & Milestone Log
-│   ├── PRD.md                      # Product Requirements & User Scenarios
-│   ├── RULES.md                    # Engineering Conventions & Coding Rules
-│   ├── TASKS.md                    # Phased Roadmap with 24 Deliverables
-│   ├── architecture.svg            # Custom 4-Card Vector Topology
-│   ├── palette.svg                 # 8-Swatch Design System Vector Palette
-│   └── principles.svg              # 4-Card Design Principles Vector
-├── supabase_schema.sql             # PostgreSQL Database Schema & Indexes
-└── README.md                       # Repository Entry & Developer Guide
+|-- backend/                            # FastAPI Python 3.11 Microservice
+|   |-- routes/                         # Modular API Route Controllers
+|   |-- config.py                       # Pydantic BaseSettings & Environment Vars
+|   |-- database.py                     # SQLAlchemy Engine & SessionLocal Generator
+|   |-- deduplication.py                # Layer 1 Hash & Layer 2 RapidFuzz Engine
+|   |-- main.py                         # FastAPI Application Initialization & Endpoints
+|   |-- models.py                       # SQLAlchemy ORM Database Schemas
+|   |-- schemas.py                      # Pydantic v2 Serialization & Request Models
+|   `-- requirements.txt                # Python Dependencies
+|-- frontend/                           # React 19 + Vite 8 Single-Page Application
+|   |-- public/                         # Static Web Assets
+|   |-- src/                            # React Application Source
+|   |   |-- components/                 # Reusable UI Cards, Modals & Forms
+|   |   |-- pages/                      # Route Pages (Dashboard, Ingest, Queue, Logs)
+|   |   |-- services/                   # Axios REST API Client Wrappers
+|   |   |-- App.jsx                     # Main Routing & Layout Orchestrator
+|   |   `-- main.jsx                    # DOM Mounting Point
+|   |-- index.html                      # HTML5 Entry Document
+|   |-- package.json                    # NPM Scripts & Dependencies
+|   `-- vite.config.js                  # Vite 8 & Tailwind v4 Plugin Configuration
+|-- docs/                               # Architecture & Engineering Documentation
+|   |-- PRD.md                          # Product Requirements & User Scenarios
+|   |-- ARCHITECTURE.md                 # System Topology & Algorithm Specifications
+|   |-- RULES.md                        # Engineering Conventions & Coding Rules
+|   |-- DESIGN.md                       # Design System & UI Specifications
+|   |-- TASKS.md                        # Phased Roadmap with 24 Deliverables
+|   |-- MEMORY.md                       # Operational State & Milestone Log
+|   |-- architecture.svg                # Custom 4-Card Vector Topology
+|   |-- palette.svg                     # 8-Swatch Design System Vector Palette
+|   `-- principles.svg                  # 4-Card Design Principles Vector
+|-- supabase_schema.sql                 # PostgreSQL Database Schema & Indexes
+`-- README.md                           # Repository Entry & Developer Guide
 ```
 
 ---
@@ -84,44 +86,34 @@ DataPure/
 ### 4. Deduplication Algorithm Pipeline
 
 ```text
-Incoming Record (Name, Email, Phone, Content)
-       │
-       ▼
-[ Text Normalization ] ────► Lowercase, strip punctuation, collapse whitespace
-       │
-       ▼
-[ Layer 1: SHA-256 Hash ]
-       │
-       ├──── Exact Hash Match in DB? ────► [ YES ] ────► REDUNDANT (100% Match) & Exit
-       │
-       ▼ [ NO ]
-[ Layer 2: RapidFuzz Matrix ]
-       │
-       ├──── Compare with DB records using token_set_ratio
-       │
-       ├──── Max Similarity >= 85%? ────► [ YES ] ────► REDUNDANT (Rejected)
-       │
-       ├──── 70% <= Similarity < 85%? ─► [ YES ] ────► FLAGGED (Queued for Audit)
-       │
-       ▼ [ NO ]
-   UNIQUE (< 70%) ────────────────────────► INSERT INTO DATABASE & GENERATE HASH
+[ Incoming Data Record (Name, Email, Phone, Content) ]
+                         |
+                         v
+[ Text Normalization: Lowercase, Strip Punctuation, Collapse Whitespace ]
+                         |
+                         v
+[ Layer 1: SHA-256 Cryptographic Hash Check ]
+                         |
+      +------------------+------------------+
+      |                                     |
+      v (Exact Match in DB)                 v (No Exact Match)
+[ REDUNDANT: 100% Hash Match ]   [ Layer 2: RapidFuzz Matrix Analysis ]
+(Instant Early-Exit)                        |
+                                            v (token_set_ratio against DB Records)
+                         +------------------+------------------+
+                         |                  |                  |
+                         v (>= 85%)         v (70% - 84%)      v (< 70%)
+                  [ REDUNDANT ]        [ FLAGGED ]        [ UNIQUE ]
+                  (Auto-Rejected)   (Queued for Audit)   (Insert into DB)
 ```
 
 ---
 
-### 5. Architectural Decision Records (ADRs)
+### 5. Key Architectural Decisions (ADRs)
 
-#### ADR-001: Two-Layer Hybrid Architecture (Cryptographic Hash + Fuzzy Scoring)
-- **Context**: Evaluating fuzzy string distance across thousands of database records is computationally intensive ($\mathcal{O}(N \times M)$). Running fuzzy algorithms on identical duplicates is wasteful.
-- **Decision**: Introduce a Layer 1 SHA-256 hash filter before running fuzzy analysis. Exact duplicates resolve in $\mathcal{O}(1)$ time against a B-Tree index, reducing unnecessary fuzzy matrix evaluations by over $60\%$.
-- **Consequence**: Dramatically reduces server CPU cycles while ensuring immediate detection of exact clones.
-
-#### ADR-002: RapidFuzz Token-Set Ratio over Levenshtein Distance
-- **Context**: Standard Levenshtein distance fails when words are reordered (e.g., "John Doe Corp" vs "Doe John Corp") or when extra middle initials exist.
-- **Decision**: Adopt RapidFuzz's `token_set_ratio`. It tokenizes strings, sorts words, and evaluates intersection vs remainder substrings, giving robust resilience against inversions.
-- **Consequence**: Significantly higher precision in real-world enterprise dirty datasets.
-
-#### ADR-003: PostgreSQL B-Tree Index on SHA-256 Hashes
-- **Context**: Fast Layer 1 lookups require indexed equality searches.
-- **Decision**: Apply a unique B-Tree index on `hash_sha256` column in the PostgreSQL `entries` table (`CREATE INDEX idx_entries_hash ON entries(hash_sha256)`).
-- **Consequence**: Guarantees sub-3ms exact-match queries regardless of database size.
+* **ADR-001: Two-Layer Hybrid Architecture (Cryptographic Hash + Fuzzy Scoring)**  
+  *Rationale*: Evaluating fuzzy string distance across thousands of database records is computationally intensive ($\mathcal{O}(N \times M)$). Layer 1 filters 60%+ of submissions via sub-millisecond SHA-256 hash lookups, reserving Layer 2 RapidFuzz matrix comparisons only for structurally unique payloads.
+* **ADR-002: Strict Client-Side Pre-Validation via Pydantic v2 Models**  
+  *Rationale*: Unvalidated inputs degrade database performance and compromise deduplication fidelity. Pydantic v2 validates and normalizes schemas prior to touching the deduplication pipeline.
+* **ADR-003: Tri-State Classification (Redundant, Flagged, Unique)**  
+  *Rationale*: Binary deduplication systems either discard false positives or store false negatives. Introducing an amber "Flagged" state for borderline candidates (70%–84% similarity) enables automated high-throughput ingestion with zero risk of catastrophic record loss.

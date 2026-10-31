@@ -57,3 +57,4 @@ This document maintains operational context, key architectural decisions, and ru
 - **Database Connections**: Always use `Depends(get_db)` to prevent connection leaks to Supabase.
 - **Deduplication Thresholds**: Changing `REDUNDANT_THRESHOLD` or `FLAGGED_THRESHOLD` requires architectural sign-off and environment variable redeployment.
 - **Normalization Integrity**: Never modify the regex pattern in `normalize_text()` without running database re-indexing migrations, as hash values depend directly on normalization output.
+

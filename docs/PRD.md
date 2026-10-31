@@ -78,3 +78,4 @@ In enterprise relational databases, CRM pipelines, and customer support database
 - **Out of Scope (Deferred to v2.0)**:
   - Vector embeddings / LLM-based semantic deduplication for long-form narrative texts.
   - Apache Kafka distributed streaming ingest.
+

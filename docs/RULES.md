@@ -92,3 +92,4 @@ This document specifies the non-negotiable coding conventions, data normalizatio
   - `docs:` for architectural documentation, schemas, and PRD updates.
   - `refactor:` for code cleanups without behavioral changes.
   - `test:` for test additions and benchmark suites.
+
