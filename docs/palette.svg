@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 180" width="100%" height="100%">
+  <defs>
+    <filter id="swatch-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="920" height="180" rx="12" fill="#0B0F19"/>
+
+  <!-- Subtle Blueprint Border -->
+  <rect x="1" y="1" width="918" height="178" rx="11" fill="none" stroke="#1E293B" stroke-width="1.2"/>
+
+  <!-- Swatch 1: Primary Blue -->
+  <g transform="translate(18, 18)" filter="url(#swatch-shadow)">
+    <rect width="98" height="144" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="8" y="8" width="82" height="60" rx="7" fill="#536DFE"/>
+    <text x="49" y="88" text-anchor="middle" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Primary</text>
+    <rect x="16" y="96" width="66" height="17" rx="4" fill="#F1F5F9"/>
+    <text x="49" y="108.5" text-anchor="middle" fill="#536DFE" font-family="ui-monospace, monospace" font-size="9" font-weight="700">#536DFE</text>
+    <text x="49" y="127" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500">Ingest CTA</text>
+    <text x="49" y="139" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.5">Action trigger</text>
+  </g>
+
+  <!-- Swatch 2: Secondary Purple -->
+  <g transform="translate(130, 18)" filter="url(#swatch-shadow)">
+    <rect width="98" height="144" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="8" y="8" width="82" height="60" rx="7" fill="#8B5CF6"/>
+    <text x="49" y="88" text-anchor="middle" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Secondary</text>
+    <rect x="16" y="96" width="66" height="17" rx="4" fill="#F1F5F9"/>
+    <text x="49" y="108.5" text-anchor="middle" fill="#8B5CF6" font-family="ui-monospace, monospace" font-size="9" font-weight="700">#8B5CF6</text>
+    <text x="49" y="127" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500">Fuzzy Logic</text>
+    <text x="49" y="139" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.5">RapidFuzz badge</text>
+  </g>
+
+  <!-- Swatch 3: Success Green -->
+  <g transform="translate(242, 18)" filter="url(#swatch-shadow)">
+    <rect width="98" height="144" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="8" y="8" width="82" height="60" rx="7" fill="#10B981"/>
+    <text x="49" y="88" text-anchor="middle" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Success</text>
+    <rect x="16" y="96" width="66" height="17" rx="4" fill="#F1F5F9"/>
+    <text x="49" y="108.5" text-anchor="middle" fill="#059669" font-family="ui-monospace, monospace" font-size="9" font-weight="700">#10B981</text>
+    <text x="49" y="127" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500">Unique Insert</text>
+    <text x="49" y="139" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.5">&lt; 70% distance</text>
+  </g>
+
+  <!-- Swatch 4: Warning Orange -->
+  <g transform="translate(354, 18)" filter="url(#swatch-shadow)">
+    <rect width="98" height="144" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="8" y="8" width="82" height="60" rx="7" fill="#F59E0B"/>
+    <text x="49" y="88" text-anchor="middle" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Warning</text>
+    <rect x="16" y="96" width="66" height="17" rx="4" fill="#F1F5F9"/>
+    <text x="49" y="108.5" text-anchor="middle" fill="#D97706" font-family="ui-monospace, monospace" font-size="9" font-weight="700">#F59E0B</text>
+    <text x="49" y="127" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500">Flagged Item</text>
+    <text x="49" y="139" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.5">70% &ndash; 84% score</text>
+  </g>
+
+  <!-- Swatch 5: Error Red -->
+  <g transform="translate(466, 18)" filter="url(#swatch-shadow)">
+    <rect width="98" height="144" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="8" y="8" width="82" height="60" rx="7" fill="#EF4444"/>
+    <text x="49" y="88" text-anchor="middle" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Error</text>
+    <rect x="16" y="96" width="66" height="17" rx="4" fill="#F1F5F9"/>
+    <text x="49" y="108.5" text-anchor="middle" fill="#DC2626" font-family="ui-monospace, monospace" font-size="9" font-weight="700">#EF4444</text>
+    <text x="49" y="127" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500">Redundant</text>
+    <text x="49" y="139" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.5">&gt;= 85% duplicate</text>
+  </g>
+
+  <!-- Swatch 6: Background -->
+  <g transform="translate(578, 18)" filter="url(#swatch-shadow)">
+    <rect width="98" height="144" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="8" y="8" width="82" height="60" rx="7" fill="#F7F8FC" stroke="#CBD5E1" stroke-width="1"/>
+    <text x="49" y="88" text-anchor="middle" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Background</text>
+    <rect x="16" y="96" width="66" height="17" rx="4" fill="#F1F5F9"/>
+    <text x="49" y="108.5" text-anchor="middle" fill="#475569" font-family="ui-monospace, monospace" font-size="9" font-weight="700">#F7F8FC</text>
+    <text x="49" y="127" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500">Light Canvas</text>
+    <text x="49" y="139" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.5">Main application</text>
+  </g>
+
+  <!-- Swatch 7: Surface -->
+  <g transform="translate(690, 18)" filter="url(#swatch-shadow)">
+    <rect width="98" height="144" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="8" y="8" width="82" height="60" rx="7" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.2"/>
+    <text x="49" y="88" text-anchor="middle" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Surface</text>
+    <rect x="16" y="96" width="66" height="17" rx="4" fill="#F1F5F9"/>
+    <text x="49" y="108.5" text-anchor="middle" fill="#475569" font-family="ui-monospace, monospace" font-size="9" font-weight="700">#FFFFFF</text>
+    <text x="49" y="127" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500">Cards / Panels</text>
+    <text x="49" y="139" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.5">Modals &amp; charts</text>
+  </g>
+
+  <!-- Swatch 8: Text -->
+  <g transform="translate(802, 18)" filter="url(#swatch-shadow)">
+    <rect width="98" height="144" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="8" y="8" width="82" height="60" rx="7" fill="#182033"/>
+    <text x="49" y="88" text-anchor="middle" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Text</text>
+    <rect x="16" y="96" width="66" height="17" rx="4" fill="#F1F5F9"/>
+    <text x="49" y="108.5" text-anchor="middle" fill="#0F172A" font-family="ui-monospace, monospace" font-size="9" font-weight="700">#182033</text>
+    <text x="49" y="127" text-anchor="middle" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500">Slate Charcoal</text>
+    <text x="49" y="139" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.5">Headings &amp; body</text>
+  </g>
+</svg>

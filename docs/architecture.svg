@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 300" width="100%" height="100%">
+  <defs>
+    <filter id="card-shadow" x="-8%" y="-8%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <linearGradient id="grid-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.9"/>
+    </linearGradient>
+    <marker id="arrow-head-right" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arrow-head-left" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 9 1 L 0 5 L 9 9 z" fill="#64748B"/>
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="920" height="300" rx="12" fill="#0B0F19"/>
+  <rect width="920" height="300" rx="12" fill="url(#grid-glow)"/>
+
+  <!-- Subtle Blueprint Grid Pattern -->
+  <g stroke="#334155" stroke-width="0.5" stroke-opacity="0.25">
+    <line x1="20" y1="20" x2="900" y2="20"/>
+    <line x1="20" y1="80" x2="900" y2="80"/>
+    <line x1="20" y1="140" x2="900" y2="140"/>
+    <line x1="20" y1="200" x2="900" y2="200"/>
+    <line x1="20" y1="260" x2="900" y2="260"/>
+    <line x1="120" y1="10" x2="120" y2="290"/>
+    <line x1="230" y1="10" x2="230" y2="290"/>
+    <line x1="340" y1="10" x2="340" y2="290"/>
+    <line x1="450" y1="10" x2="450" y2="290"/>
+    <line x1="560" y1="10" x2="560" y2="290"/>
+    <line x1="670" y1="10" x2="670" y2="290"/>
+    <line x1="780" y1="10" x2="780" y2="290"/>
+  </g>
+
+  <!-- Title Pill -->
+  <g transform="translate(24, 12)">
+    <rect width="280" height="20" rx="10" fill="#1E293B" stroke="#334155" stroke-width="0.8"/>
+    <circle cx="10" cy="10" r="3.5" fill="#10B981"/>
+    <text x="20" y="14" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" letter-spacing="0.05em">DATAPURE &bull; ENTERPRISE SYSTEM TOPOLOGY</text>
+  </g>
+
+  <!-- ==================== CARD 1: CLIENT / INGESTION ==================== -->
+  <g transform="translate(24, 42)" filter="url(#card-shadow)">
+    <rect width="195" height="226" rx="14" fill="#BFDBFE" stroke="#93C5FD" stroke-width="1.5"/>
+    <!-- Icon Container -->
+    <rect x="14" y="16" width="38" height="38" rx="10" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.2"/>
+    <path d="M 26 38 L 40 38 M 33 24 L 33 34 M 29 28 L 33 24 L 37 28" fill="none" stroke="#1E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="27" y="27" width="12" height="7" rx="1.5" fill="none" stroke="#1E3A8A" stroke-width="1.2"/>
+    <!-- Header Text -->
+    <text x="60" y="32" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Data Ingestion</text>
+    <text x="60" y="47" fill="#1E40AF" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="500">Browser / CSV / REST</text>
+    <!-- Divider -->
+    <line x1="14" y1="64" x2="181" y2="64" stroke="#93C5FD" stroke-width="1"/>
+    <!-- Subtitle -->
+    <text x="14" y="82" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Ingestion Channels</text>
+    <text x="14" y="98" fill="#334155" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Multipart CSV &amp; Batch Stream</text>
+    <!-- Feature Chips -->
+    <g transform="translate(14, 112)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#93C5FD" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#2563EB"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Batch CSV / Excel Uploads</text>
+    </g>
+    <g transform="translate(14, 140)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#93C5FD" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#2563EB"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Manual Entry Form (Instant)</text>
+    </g>
+    <g transform="translate(14, 168)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#93C5FD" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#2563EB"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Automated Webhooks</text>
+    </g>
+    <!-- Footer Badge -->
+    <rect x="14" y="198" width="167" height="18" rx="4" fill="#DBEAFE"/>
+    <text x="97.5" y="210" text-anchor="middle" fill="#1E40AF" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Client Payload &bull; Multipart/JSON</text>
+  </g>
+
+  <!-- Connector 1 -->
+  <g stroke="#64748B" stroke-width="1.5">
+    <line x1="221" y1="150" x2="247" y2="150" marker-end="url(#arrow-head-right)" marker-start="url(#arrow-head-left)"/>
+  </g>
+  <rect x="223" y="138" width="22" height="11" rx="3" fill="#0F172A" stroke="#334155" stroke-width="0.6"/>
+  <text x="234" y="146.5" text-anchor="middle" fill="#94A3B8" font-family="ui-monospace, monospace" font-size="6.5" font-weight="700">HTTPS</text>
+
+  <!-- ==================== CARD 2: REACT 19 FRONTEND ==================== -->
+  <g transform="translate(251, 42)" filter="url(#card-shadow)">
+    <rect width="195" height="226" rx="14" fill="#A7F3D0" stroke="#6EE7B7" stroke-width="1.5"/>
+    <!-- Icon Container -->
+    <rect x="14" y="16" width="38" height="38" rx="10" fill="#FFFFFF" stroke="#34D399" stroke-width="1.2"/>
+    <path d="M 25 35 L 41 35 M 25 25 L 41 25 M 29 21 L 25 25 L 29 29 M 37 31 L 41 35 L 37 39" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Header Text -->
+    <text x="60" y="32" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">React 19 Frontend</text>
+    <text x="60" y="47" fill="#047857" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="500">Vite 8 + Tailwind v4</text>
+    <!-- Divider -->
+    <line x1="14" y1="64" x2="181" y2="64" stroke="#6EE7B7" stroke-width="1"/>
+    <!-- Subtitle -->
+    <text x="14" y="82" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Telemetry &amp; Audit UI</text>
+    <text x="14" y="98" fill="#334155" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Interactive Deduplication Dash</text>
+    <!-- Feature Chips -->
+    <g transform="translate(14, 112)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#059669"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Recharts Redundancy Metrics</text>
+    </g>
+    <g transform="translate(14, 140)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#059669"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Framer Motion Live Toasts</text>
+    </g>
+    <g transform="translate(14, 168)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#059669"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Audit &amp; Flagged Queue View</text>
+    </g>
+    <!-- Footer Badge -->
+    <rect x="14" y="198" width="167" height="18" rx="4" fill="#D1FAE5"/>
+    <text x="97.5" y="210" text-anchor="middle" fill="#047857" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Client State &bull; Axios + Router v7</text>
+  </g>
+
+  <!-- Connector 2 -->
+  <g stroke="#64748B" stroke-width="1.5">
+    <line x1="448" y1="150" x2="474" y2="150" marker-end="url(#arrow-head-right)" marker-start="url(#arrow-head-left)"/>
+  </g>
+  <rect x="450" y="138" width="22" height="11" rx="3" fill="#0F172A" stroke="#334155" stroke-width="0.6"/>
+  <text x="461" y="146.5" text-anchor="middle" fill="#94A3B8" font-family="ui-monospace, monospace" font-size="6.5" font-weight="700">REST</text>
+
+  <!-- ==================== CARD 3: FASTAPI DEDUPLICATION CORE ==================== -->
+  <g transform="translate(478, 42)" filter="url(#card-shadow)">
+    <rect width="195" height="226" rx="14" fill="#FDE68A" stroke="#FCD34D" stroke-width="1.5"/>
+    <!-- Icon Container -->
+    <rect x="14" y="16" width="38" height="38" rx="10" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.2"/>
+    <path d="M 33 22 L 27 30 L 32 30 L 31 38 L 39 29 L 34 29 Z" fill="#D97706" stroke="#B45309" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- Header Text -->
+    <text x="60" y="32" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">FastAPI Engine</text>
+    <text x="60" y="47" fill="#B45309" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="500">Python 3.11 + RapidFuzz</text>
+    <!-- Divider -->
+    <line x1="14" y1="64" x2="181" y2="64" stroke="#FCD34D" stroke-width="1"/>
+    <!-- Subtitle -->
+    <text x="14" y="82" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Two-Layer Filtering</text>
+    <text x="14" y="98" fill="#334155" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Exact Hashing &amp; Fuzzy Logic</text>
+    <!-- Feature Chips -->
+    <g transform="translate(14, 112)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#FCD34D" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#D97706"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Layer 1: SHA-256 Hash Filter</text>
+    </g>
+    <g transform="translate(14, 140)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#FCD34D" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#D97706"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Layer 2: RapidFuzz Similarity</text>
+    </g>
+    <g transform="translate(14, 168)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#FCD34D" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#D97706"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Dynamic Thresholds (70/85%)</text>
+    </g>
+    <!-- Footer Badge -->
+    <rect x="14" y="198" width="167" height="18" rx="4" fill="#FEF3C7"/>
+    <text x="97.5" y="210" text-anchor="middle" fill="#B45309" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">Async Pipeline &bull; Pydantic v2</text>
+  </g>
+
+  <!-- Connector 3 -->
+  <g stroke="#64748B" stroke-width="1.5">
+    <line x1="675" y1="150" x2="701" y2="150" marker-end="url(#arrow-head-right)" marker-start="url(#arrow-head-left)"/>
+  </g>
+  <rect x="677" y="138" width="22" height="11" rx="3" fill="#0F172A" stroke="#334155" stroke-width="0.6"/>
+  <text x="688" y="146.5" text-anchor="middle" fill="#94A3B8" font-family="ui-monospace, monospace" font-size="6.5" font-weight="700">SQL</text>
+
+  <!-- ==================== CARD 4: SUPABASE / POSTGRESQL ==================== -->
+  <g transform="translate(705, 42)" filter="url(#card-shadow)">
+    <rect width="195" height="226" rx="14" fill="#DDD6FE" stroke="#C4B5FD" stroke-width="1.5"/>
+    <!-- Icon Container -->
+    <rect x="14" y="16" width="38" height="38" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.2"/>
+    <ellipse cx="33" cy="24" rx="11" ry="4" fill="none" stroke="#5B21B6" stroke-width="1.5"/>
+    <path d="M 22 24 L 22 34 C 22 36.5 27 38.5 33 38.5 C 39 38.5 44 36.5 44 34 L 44 24" fill="none" stroke="#5B21B6" stroke-width="1.5"/>
+    <path d="M 22 29 C 22 31.5 27 33.5 33 33.5 C 39 33.5 44 31.5 44 29" fill="none" stroke="#5B21B6" stroke-width="1.5"/>
+    <!-- Header Text -->
+    <text x="60" y="32" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Supabase / PG</text>
+    <text x="60" y="47" fill="#6D28D9" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="500">PostgreSQL + SQLAlchemy</text>
+    <!-- Divider -->
+    <line x1="14" y1="64" x2="181" y2="64" stroke="#C4B5FD" stroke-width="1"/>
+    <!-- Subtitle -->
+    <text x="14" y="82" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Persistence Store</text>
+    <text x="14" y="98" fill="#334155" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Audited Relational Records</text>
+    <!-- Feature Chips -->
+    <g transform="translate(14, 112)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#7C3AED"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Indexed Hash Lookup Table</text>
+    </g>
+    <g transform="translate(14, 140)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#7C3AED"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Audit Status: UNIQUE/FLAGGED</text>
+    </g>
+    <g transform="translate(14, 168)">
+      <rect width="167" height="22" rx="6" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="0.8"/>
+      <circle cx="10" cy="11" r="3" fill="#7C3AED"/>
+      <text x="20" y="14.5" fill="#1E293B" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">SQLAlchemy 2.0 ORM Engine</text>
+    </g>
+    <!-- Footer Badge -->
+    <rect x="14" y="198" width="167" height="18" rx="4" fill="#EDE9FE"/>
+    <text x="97.5" y="210" text-anchor="middle" fill="#6D28D9" font-family="ui-monospace, monospace" font-size="8.5" font-weight="600">PostgreSQL Pool &bull; Supabase Auth</text>
+  </g>
+
+  <!-- Bottom Legend Bar -->
+  <g transform="translate(24, 276)">
+    <circle cx="6" cy="6" r="3" fill="#BFDBFE"/>
+    <text x="14" y="9.5" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5">Ingestion Feed</text>
+    <circle cx="105" cy="6" r="3" fill="#A7F3D0"/>
+    <text x="113" y="9.5" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5">React 19 Telemetry</text>
+    <circle cx="218" cy="6" r="3" fill="#FDE68A"/>
+    <text x="226" y="9.5" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5">FastAPI &amp; RapidFuzz Core</text>
+    <circle cx="355" cy="6" r="3" fill="#DDD6FE"/>
+    <text x="363" y="9.5" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8.5">Supabase / PostgreSQL Ledger</text>
+    <text x="896" y="9.5" text-anchor="end" fill="#475569" font-family="ui-monospace, monospace" font-size="8.5">SHA-256 (L1) + RapidFuzz (L2) Pipeline</text>
+  </g>
+</svg>
